@@ -1,65 +1,63 @@
-:root {   
-  --color1: #ffffff;             
-  --color2: #374666;        
-  --color3: #83A4CC;
-  --color4: #000000;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-body {
-  background-color: var(--color1);
-  color: var(--color4);
-  margin: 0;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px;
+    text-align: center;
 }
 
 h1 {
-  color: var(--color2);
-  text-align: center;
+    margin: 0;
+}
+
+#formulario-reserva, #historial-reservas, #vehiculos-disponibles {
+    padding: 20px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label, input, select, button {
+    margin: 10px 0;
 }
 
 button {
-  background-color: var(--color3);
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  display: block;
-  margin: 20px auto;
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 button:hover {
-  background-color: var(--color2);
-  color: white;
+    background-color: #218838;
 }
 
 table {
-  margin: 0 auto;
-  border-collapse: collapse;
-  width: 90%;
-  max-width: 800px;
+    width: 100%;
+    border-collapse: collapse;
 }
 
-table, th, td {
-  border: 1px solid #ccc;
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
 th {
-  background-color: var(--color2);
-  color: white;
-  padding: 10px;
+    background-color: #007BFF;
+    color: white;
 }
-
-td {
-  padding: 10px;
-  text-align: center;
-}
-
-.imagen-centrada {
-  display: block;
-  margin: 20px auto;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-}
-

@@ -7,11 +7,40 @@
 </head>
 <body>
 
-  <h1>Consulta de Vehículos</h1>
-  <button onclick="consultarVehiculos()">Ver vehículos</button>
-  <img src="https://img.freepik.com/vector-gratis/gato-lindo-chill-neumaticos-natacion-jugo-icono-vectorial-dibujos-animados-ilustracion-vacaciones-animales-aisladas_138676-11202.jpg?semt=ais_hybrid&w=740" alt="..." class="imagen-centrada" width="500">
+  <header>
+    <h1>Alquiler de Vehículos</h1>
+    <button onclick="consultarVehiculos()">Ver vehículos disponibles</button>
+  </header>
 
-  <div id="resultado"></div>
+  <section id="vehiculos-disponibles">
+    <h2>Consulta de Vehículos</h2>
+    <div id="resultado"></div>
+  </section>
+
+  <section id="reserva">
+    <h2>Realizar Reserva</h2>
+    <form id="formulario-reserva">
+      <label for="vehiculo">Selecciona un Vehículo:</label>
+      <select id="vehiculo" name="vehiculo">
+        <!-- Opciones de vehículos se cargarán aquí -->
+      </select>
+
+      <label for="cliente">Cliente:</label>
+      <input type="text" id="cliente" name="cliente" required>
+
+      <label for="fecha_inicio">Fecha de Inicio:</label>
+      <input type="date" id="fecha_inicio" name="fecha_inicio" required>
+
+      <label for="fecha_fin">Fecha de Fin:</label>
+      <input type="date" id="fecha_fin" name="fecha_fin" required>
+
+      <button type="submit">Reservar</button>
+    </form>
+  </section>
+
+  <footer>
+    <img src="https://img.freepik.com/vector-gratis/gato-lindo-chill-neumaticos-natacion-jugo-icono-vectorial-dibujos-animados-ilustracion-vacaciones-animales-aisladas_138676-11202.jpg?semt=ais_hybrid&w=740" alt="Imagen decorativa" class="imagen-centrada" width="500">
+  </footer>
 
   <script src="main.js"></script>
 </body>
