@@ -122,7 +122,7 @@ async function cargarSelect(url, select) {
 
 // ---------------------- Generar PDF ----------------------
 
-function generarPDF(cliente, empleado, fechaInicio, fechaFin) {
+function generarPDF(cliente, empleado, fechaInicio, fechaFin, dias, precio, total) {
   const jsPDF = window.jspdf?.jsPDF;
   if (!jsPDF) {
     console.warn("jsPDF no está cargado");
@@ -132,11 +132,16 @@ function generarPDF(cliente, empleado, fechaInicio, fechaFin) {
   const doc = new jsPDF();
   doc.setFontSize(18);
   doc.text('Confirmación de Renta', 14, 20);
+
   doc.setFontSize(12);
   doc.text(`Cliente: ${cliente}`, 14, 40);
   doc.text(`Empleado: ${empleado}`, 14, 50);
   doc.text(`Fecha Inicio: ${fechaInicio}`, 14, 60);
   doc.text(`Fecha Fin: ${fechaFin}`, 14, 70);
+  doc.text(`Días de renta: ${dias}`, 14, 80);
+  doc.text(`Precio por día: Q${precio.toFixed(2)}`, 14, 90);
+  doc.text(`Total: Q${total.toFixed(2)}`, 14, 100);
+
   doc.save('confirmacion_renta.pdf');
 }
 
@@ -145,23 +150,27 @@ function generarPDF(cliente, empleado, fechaInicio, fechaFin) {
 formRenta.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const data = {
-    cliente_id: clienteSelect.value,
-    vehiculo_id: vehiculoInput.value,
-    empleado_id: empleadoSelect.value,
-    fecha_inicio: modalFechaInicio.value,
-    fecha_fin: modalFechaFin.value,
-    estado: "Pendiente"
-  };
-
-  // Debug: imprimir los datos enviados
-  console.log("DATA ENVIADA:", JSON.stringify(data, null, 2));
-
-  // Obtener nombres para el PDF
   const cliente = clienteSelect.options[clienteSelect.selectedIndex]?.text || "N/A";
   const empleado = empleadoSelect.options[empleadoSelect.selectedIndex]?.text || "N/A";
+  const fechaInicio = modalFechaInicio.value;
+  const fechaFin = modalFechaFin.value;
+  const vehiculoId = parseInt(vehiculoInput.value);
 
-  generarPDF(cliente, empleado, data.fecha_inicio, data.fecha_fin);
+  const dias = (new Date(fechaFin) - new Date(fechaInicio)) / (1000 * 60 * 60 * 24);
+  const vehiculo = vehiculos.find(v => v.id === vehiculoId);
+  const precioPorDia = vehiculo ? parseFloat(vehiculo.precio_diario) : 0;
+  const total = dias * precioPorDia;
+
+  generarPDF(cliente, empleado, fechaInicio, fechaFin, dias, precioPorDia, total);
+
+  const data = {
+    cliente_id: parseInt(clienteSelect.value),
+    vehiculo_id: vehiculoId,
+    empleado_id: parseInt(empleadoSelect.value),
+    fecha_inicio: fechaInicio,
+    fecha_fin: fechaFin,
+    estado: "Pendiente"
+  };
 
   try {
     const res = await fetch(`${API_BASE}/alquileres/`, {
