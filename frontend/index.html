@@ -1,47 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Alquiler de Vehículos</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Catálogo de Vehículos</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="main.js"></script>
 </head>
 <body>
-
   <header>
-    <h1>Alquiler de Vehículos</h1>
-    <button onclick="consultarVehiculos()">Ver vehículos disponibles</button>
+    <h1>Renta de Vehículos</h1>
   </header>
 
-  <section id="vehiculos-disponibles">
-    <h2>Consulta de Vehículos</h2>
-    <div id="resultado"></div>
+  <section class="filtros">
+    <label>Desde: <input type="date" id="fechaInicio"></label>
+    <label>Hasta: <input type="date" id="fechaFin"></label>
   </section>
 
-  <section id="reserva">
-    <h2>Realizar Reserva</h2>
-    <form id="formulario-reserva">
-      <label for="vehiculo">Selecciona un Vehículo:</label>
-      <select id="vehiculo" name="vehiculo">
-        <!-- Opciones de vehículos se cargarán aquí -->
-      </select>
+  <section class="vehiculos" id="vehiculos-container"></section>
 
-      <label for="cliente">Cliente:</label>
-      <input type="text" id="cliente" name="cliente" required>
-
-      <label for="fecha_inicio">Fecha de Inicio:</label>
-      <input type="date" id="fecha_inicio" name="fecha_inicio" required>
-
-      <label for="fecha_fin">Fecha de Fin:</label>
-      <input type="date" id="fecha_fin" name="fecha_fin" required>
-
-      <button type="submit">Reservar</button>
-    </form>
-  </section>
-
-  <footer>
-    <img src="https://img.freepik.com/vector-gratis/gato-lindo-chill-neumaticos-natacion-jugo-icono-vectorial-dibujos-animados-ilustracion-vacaciones-animales-aisladas_138676-11202.jpg?semt=ais_hybrid&w=740" alt="Imagen decorativa" class="imagen-centrada" width="500">
-  </footer>
-
-  <script src="main.js"></script>
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="cerrar" id="cerrarModal">&times;</span>
+      <h2>Confirmar Renta</h2>
+      <form id="formRenta">
+        <input type="hidden" id="vehiculo_id">
+        <label>Cliente:
+          <select id="clienteSelect" required></select>
+        </label>
+        <label>Empleado:
+          <select id="empleadoSelect" required></select>
+        </label>
+        <label>Fecha Inicio:
+          <input type="date" id="modalFechaInicio" readonly>
+        </label>
+        <label>Fecha Fin:
+          <input type="date" id="modalFechaFin" readonly>
+        </label>
+        <button type="submit">Confirmar Renta</button>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

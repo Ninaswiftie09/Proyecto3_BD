@@ -1,63 +1,156 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
 }
 
 header {
-    background-color: #007BFF;
-    color: white;
-    padding: 20px;
-    text-align: center;
+  background-color: #007bff;
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-h1 {
-    margin: 0;
+.filtros {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
-#formulario-reserva, #historial-reservas, #vehiculos-disponibles {
-    padding: 20px;
-    margin: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.filtros label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
+.filtros input[type="date"] {
+  padding: 0.4rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-label, input, select, button {
-    margin: 10px 0;
+.vehiculos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
 }
 
-button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.card {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
 }
 
-button:hover {
-    background-color: #218838;
+.card:hover {
+  transform: translateY(-5px);
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
 }
 
-th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+.card-body {
+  padding: 1rem;
 }
 
-th {
-    background-color: #007BFF;
-    color: white;
+.card-body h3 {
+  margin: 0 0 0.5rem;
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+.card-body p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+.card-body button {
+  margin-top: 0.8rem;
+  width: 100%;
+  padding: 0.5rem;
+  background: #28a745;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.card-body button:hover {
+  background: #218838;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  padding-top: 80px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 2rem;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 6px;
+  position: relative;
+}
+
+.cerrar {
+  color: #aaa;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+form label {
+  display: block;
+  margin: 0.8rem 0 0.3rem;
+}
+
+form select,
+form input[type="date"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.6rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #0056b3;
 }
