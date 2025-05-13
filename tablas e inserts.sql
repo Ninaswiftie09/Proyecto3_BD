@@ -1,3 +1,91 @@
+-- Creación de tablas manualmente (aunque se crean en el models.py):
+CREATE TABLE categoria (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE vehiculo (
+    id SERIAL PRIMARY KEY,
+    marca VARCHAR(100) NOT NULL,
+    modelo VARCHAR(100) NOT NULL,
+    ano INTEGER NOT NULL CHECK (ano > 0),
+    color VARCHAR(50) NOT NULL,
+    categoria_id INTEGER NOT NULL REFERENCES categoria(id) ON DELETE CASCADE,
+    estado VARCHAR(20) NOT NULL DEFAULT 'Disponible',
+    precio_diario NUMERIC(10, 2) NOT NULL,
+    imagen_url TEXT
+);
+
+CREATE TABLE cliente (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    dpi VARCHAR(20) UNIQUE NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    correo VARCHAR(254) UNIQUE,
+    direccion TEXT
+);
+
+CREATE TABLE empleado (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    cargo VARCHAR(100) NOT NULL,
+    correo VARCHAR(254) UNIQUE NOT NULL,
+    telefono VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE alquiler (
+    id SERIAL PRIMARY KEY,
+    cliente_id INTEGER NOT NULL REFERENCES cliente(id) ON DELETE CASCADE,
+    vehiculo_id INTEGER NOT NULL REFERENCES vehiculo(id) ON DELETE CASCADE,
+    empleado_id INTEGER NOT NULL REFERENCES empleado(id) ON DELETE CASCADE,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    total NUMERIC(10, 2) NOT NULL,
+    estado VARCHAR(20) NOT NULL DEFAULT 'Pendiente'
+);
+
+CREATE TABLE pago (
+    id SERIAL PRIMARY KEY,
+    alquiler_id INTEGER NOT NULL REFERENCES alquiler(id) ON DELETE CASCADE,
+    fecha_pago DATE NOT NULL,
+    monto NUMERIC(10, 2) NOT NULL,
+    metodo_pago VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE mantenimiento (
+    id SERIAL PRIMARY KEY,
+    vehiculo_id INTEGER NOT NULL REFERENCES vehiculo(id) ON DELETE CASCADE,
+    fecha DATE NOT NULL,
+    descripcion TEXT,
+    costo NUMERIC(10, 2) NOT NULL,
+    tipo VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE bitacora (
+    id SERIAL PRIMARY KEY,
+    usuario VARCHAR(150) NOT NULL,
+    accion VARCHAR(100) NOT NULL,
+    fecha TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    tabla_afectada VARCHAR(100) NOT NULL,
+    detalle TEXT
+);
+
+CREATE TABLE accesorio (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE vehiculo_accesorio (
+    id SERIAL PRIMARY KEY,
+    vehiculo_id INTEGER NOT NULL REFERENCES vehiculo(id) ON DELETE CASCADE,
+    accesorio_id INTEGER NOT NULL REFERENCES accesorio(id) ON DELETE CASCADE,
+    UNIQUE (vehiculo_id, accesorio_id)
+);
+
+
+-- Inserts para las tablas
 
 -- CATEGORÍAS
 INSERT INTO renta_categoria (id, nombre) VALUES
@@ -10,7 +98,7 @@ INSERT INTO renta_vehiculo (id, marca, modelo, ano, color, categoria_id, estado,
 (1, 'Mazda', 'CX-5', 2017, 'Rojo', 1, 'Disponible', 50.00, 'https://example.com/mazda-cx5.jpg'),
 (2, 'Toyota', 'Corolla', 2025, 'Blanco', 2, 'Disponible', 75.00, 'https://example.com/toyota-corolla.jpg'),
 (3, 'Kia', 'Stonic', 2025, 'Celeste', 3, 'Disponible', 67.00, 'https://example.com/kia-stonic.jpg');
-INSERT INTO renta_vehiculo (id, marca, modelo, ano, color, categoria_id, estado, precio_diario, imagen_url) VALUES (4, 'Mazda', 'CX-5', 2021, 'Verde', 1, 'Disponible', 56.33, 'https://example.com/mazda-cx-5.jpg');
+INSERT INTO renta_vehiculo (id, marca, modelo, ano, color, categoria_id, estado, precio_diario, imagen_url) VALUES (4, 'Mazda', 'CX-5', 2021, 'Verde', 1, 'Disponible', 56.33, 'https://mazda-cx-5.jpg');
 INSERT INTO renta_vehiculo (id, marca, modelo, ano, color, categoria_id, estado, precio_diario, imagen_url) VALUES (5, 'Toyota', 'Corolla', 2021, 'Celeste', 2, 'Disponible', 87.48, 'https://example.com/toyota-corolla.jpg');
 INSERT INTO renta_vehiculo (id, marca, modelo, ano, color, categoria_id, estado, precio_diario, imagen_url) VALUES (6, 'Ford', 'EcoSport', 2020, 'Azul', 3, 'Disponible', 85.38, 'https://example.com/ford-ecosport.jpg');
 INSERT INTO renta_vehiculo (id, marca, modelo, ano, color, categoria_id, estado, precio_diario, imagen_url) VALUES (7, 'Mazda', 'CX-5', 2021, 'Blanco', 1, 'Disponible', 86.05, 'https://example.com/mazda-cx-5.jpg');
