@@ -15,8 +15,8 @@ Este proyecto utiliza **Docker** y **Docker Compose** para facilitar la configur
 1. **Clonar el repositorio:**
 
    ```bash
-   git clone <URL-del-repositorio>
-   cd <nombre-del-proyecto>
+   git clone https://github.com/Ninaswiftie09/Proyecto3_BD
+   cd <Proyecto3_BD>
 
 2. **Levantar contenedores**
 
