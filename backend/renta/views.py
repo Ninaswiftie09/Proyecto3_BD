@@ -31,6 +31,13 @@ class AlquilerViewSet(viewsets.ModelViewSet):
     queryset = Alquiler.objects.all()
     serializer_class = AlquilerSerializer
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        vehiculo_id = self.request.query_params.get('vehiculo_id')
+        if vehiculo_id:
+            queryset = queryset.filter(vehiculo_id=vehiculo_id)
+        return queryset
+
 class PagoViewSet(viewsets.ModelViewSet):
     queryset = Pago.objects.all()
     serializer_class = PagoSerializer
