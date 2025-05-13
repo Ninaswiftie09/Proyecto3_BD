@@ -33,9 +33,41 @@ class EmpleadoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AlquilerSerializer(serializers.ModelSerializer):
+    cliente_id = serializers.PrimaryKeyRelatedField(
+        queryset=Cliente.objects.all(),
+        source='cliente'
+    )
+    vehiculo_id = serializers.PrimaryKeyRelatedField(
+        queryset=Vehiculo.objects.all(),
+        source='vehiculo'
+    )
+    empleado_id = serializers.PrimaryKeyRelatedField(
+        queryset=Empleado.objects.all(),
+        source='empleado'
+    )
+
     class Meta:
         model = Alquiler
-        fields = '__all__'
+        fields = [
+            'id',
+            'cliente_id',
+            'vehiculo_id',
+            'empleado_id',
+            'fecha_inicio',
+            'fecha_fin',
+            'total',
+            'estado'
+        ]
+        read_only_fields = ['total']
+
+    def create(self, validated_data):
+        vehiculo = validated_data['vehiculo']
+        fecha_inicio = validated_data['fecha_inicio']
+        fecha_fin = validated_data['fecha_fin']
+        dias = (fecha_fin - fecha_inicio).days
+
+        validated_data['total'] = dias * float(vehiculo.precio_diario)
+        return super().create(validated_data)
 
 class PagoSerializer(serializers.ModelSerializer):
     class Meta:
