@@ -133,12 +133,72 @@ formRenta.addEventListener("submit", async (e) => {
     estado: "Pendiente"
   };
 
+// ---------------------- Generar PDF ----------------------
+function generarPDF(cliente, empleado, fechaInicio, fechaFin, total) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Título
+  doc.setFontSize(18);
+  doc.text('Confirmación de Renta', 14, 20);
+
+  // Información del alquiler
+  doc.setFontSize(12);
+  doc.text(`Cliente: ${cliente}`, 14, 40);
+  doc.text(`Empleado: ${empleado}`, 14, 50);
+  doc.text(`Fecha Inicio: ${fechaInicio}`, 14, 60);
+  doc.text(`Fecha Fin: ${fechaFin}`, 14, 70);
+  doc.text(`Total: Q${total.toFixed(2)}`, 14, 80);
+
+  // Guardar el PDF
+  doc.save('confirmacion_renta.pdf');
+}
+
+// ---------------------- Enviar alquiler ----------------------
+
+formRenta.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    cliente_id: clienteSelect.value,
+    vehiculo_id: vehiculoInput.value,
+    empleado_id: empleadoSelect.value,
+    fecha_inicio: modalFechaInicio.value,
+    fecha_fin: modalFechaFin.value,
+    total: 0,
+    estado: "Pendiente"
+  };
+
   // Calcular total antes de enviar (opcional)
   const dias = (new Date(data.fecha_fin) - new Date(data.fecha_inicio)) / (1000 * 60 * 60 * 24);
   const vehiculo = vehiculos.find(v => v.id == data.vehiculo_id);
   if (vehiculo) {
     data.total = dias * parseFloat(vehiculo.precio_diario);
   }
+
+  // Obtener los nombres del cliente y el empleado
+  const cliente = clienteSelect.options[clienteSelect.selectedIndex].text;
+  const empleado = empleadoSelect.options[empleadoSelect.selectedIndex].text;
+
+  // Generar el PDF con los datos del alquiler
+  generarPDF(cliente, empleado, data.fecha_inicio, data.fecha_fin, data.total);
+
+  // Enviar el alquiler
+  const res = await fetch(`${API_BASE}/alquileres/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  if (res.ok) {
+    alert("¡Alquiler creado!");
+    modal.style.display = "none";
+    cargarVehiculos();
+  } else {
+    alert("Error al alquilar.");
+  }
+});
+
 
   const res = await fetch(`${API_BASE}/alquileres/`, {
     method: "POST",
